@@ -15,7 +15,7 @@ var styles = StyleSheet.create({
     paddingTop: 30,
     paddingBottom: 10,
     flexDirection: 'row',
-    justifyContent: 'center'
+    alignItems: 'center'
   },
 
   center: {
@@ -35,6 +35,36 @@ var styles = StyleSheet.create({
   },
   btn_text: {
     color: '#fff'
+  },
+  back: {
+    width: 50,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+
+  offers: {
+    flex: 1
+  },
+  offer_item: {
+    padding: 5,
+    margin: 5,
+    backgroundColor: '#fa8'
+  },
+
+  days: {
+    flex: 1,
+    margin: 5,
+    backgroundColor: '#E06974',
+    alignItems: 'center',
+    borderRadius: 3,
+    padding: 2
+  },
+
+  _beer: {
+    backgroundColor: '#3AA372'
+  },
+  _food: {
+    backgroundColor: '#D19E5F'
   }
 
 });
