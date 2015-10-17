@@ -14,6 +14,7 @@ var routes = {
   Beer: require('./components/Beer.js')
 }
 
+console.log(Navigator.SceneConfigs);
 
 var routeMapper = (route, navigator) => {
   return React.createElement(routes[route.name], { navigator: navigator });
@@ -25,6 +26,9 @@ var MainNav = React.createClass({
     return <Navigator
       initialRoute={{name: 'Home', index: 0}}
       renderScene={routeMapper}
+      configureScene={(route) => {
+        return Navigator.SceneConfigs.HorizontalSwipeJump;
+      }}
     />;
   }
 });
