@@ -1,1 +1,1 @@
-# ChamGeeks React netive Hackathon 2015 
+# ChamGeeks React native Hackathon 2015 
