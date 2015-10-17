@@ -1,8 +1,8 @@
 'use strict';
 
 var React = require('react-native');
-var { Text, View, TouchableHighlight } = React;
-
+var { Text, Image, View, TouchableHighlight } = React;
+var styles = require('../styles');
 
 module.exports = React.createClass({
 
@@ -16,29 +16,24 @@ module.exports = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
-        <TouchableHighlight
-          style={styles.button}
-          onPress={this.buttonClicked}
-        >
-          <Text style={styles.welcome}>Drink!</Text>
-        </TouchableHighlight>
 
-        <TouchableHighlight
-          style={styles.button}
-          onPress={this.buttonClicked}
-        >
-          <Text style={styles.welcome}>Eat!</Text>
-        </TouchableHighlight>
+        <View style={styles.header}>
+          <Image style={{width: 10, height: 10}} source={ require('image!home') } />
+        </View>
 
-        <Text style={styles.welcome}>
+        <View style={[styles.center]}>
+          <Text style={styles.h1}>Beer, burgers and birds.</Text>
+        </View>
 
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Shake or press menu button for dev menu
-        </Text>
+        <View style={{ flex: 2, justifyContent: 'center' }}>
+          <TouchableHighlight style={[styles.btn_big, styles.btn_big_main]} onPress={this.buttonClicked}>
+            <Text style={styles.btn_text}>Drink!</Text>
+          </TouchableHighlight>
+
+          <TouchableHighlight style={[styles.btn_big, styles.btn_big_main]} onPress={this.buttonClicked}>
+            <Text style={styles.btn_text}>Eata!</Text>
+          </TouchableHighlight>
+        </View>
       </View>
     );
   }
