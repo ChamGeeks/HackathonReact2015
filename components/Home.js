@@ -19,7 +19,7 @@ module.exports = React.createClass({
 
         <View style={s.header}>
           <View style={{ alignItems: 'center', flex: 1 }}>
-            <Image style={{width: 12, height: 12, textAlign: 'center'}} source={ require('image!home') } />
+            <Image style={{width: 12, height: 12}} source={ require('image!home') } />
           </View>
         </View>
 

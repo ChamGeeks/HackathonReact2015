@@ -14,19 +14,28 @@ module.exports = React.createClass({
   },
 
   componentDidMount: function() {
-    BeerStore.addChangeListener(this._onTodayChange);
+    BeerStore.addChangeListener(this._onDayChange);
   },
   componentWillUnmount: function() {
-    BeerStore.removeChangeListener(this._onTodayChange);
+    BeerStore.removeChangeListener(this._onDayChange);
   },
 
 
-  _onTodayChange: function() {
-    this.setState({ offers: BeerStore.getToday() });
+  _onDayChange: function() {
+    this.setState({ offers: BeerStore.getSelectedDay() });
   },
 
   buttonClicked: function(e) {
     this.props.navigator.pop();
+  },
+
+  _selectDay: function(day) {
+    BeerStore.setDay(day);
+  },
+
+
+  isDrink: function(tags) {
+    return (tags.includes('beer') || tags.includes('cocktails'));
   },
 
   render: function() {
@@ -34,9 +43,8 @@ module.exports = React.createClass({
     var offers;
 
     if(this.state.offers) {
-      console.log(this.state.offers);
       offers = this.state.offers.map((item, index) => {
-        if(item.tagged.includes('beer') || item.tagged.includes('cocktails')) {
+        if(this.isDrink(item.tagged)) {
           return (
             <View key={'offer_'+ index} style={s.offer_item}>
               <Text>{ item.bar.name }</Text>
@@ -68,25 +76,25 @@ module.exports = React.createClass({
         </View>
 
         <View style={{ flexDirection: 'row' }}>
-          <TouchableHighlight style={s.days}>
+          <TouchableHighlight style={s.days} onPress={this._selectDay.bind(this, 1)}>
             <Text>Mon</Text>
           </TouchableHighlight>
-          <TouchableHighlight style={s.days}>
+          <TouchableHighlight style={s.days} onPress={this._selectDay.bind(this, 2)}>
             <Text>Tue</Text>
           </TouchableHighlight>
-          <TouchableHighlight style={s.days}>
+          <TouchableHighlight style={s.days} onPress={this._selectDay.bind(this, 3)}>
             <Text>Wed</Text>
           </TouchableHighlight>
-          <TouchableHighlight style={s.days}>
+          <TouchableHighlight style={s.days} onPress={this._selectDay.bind(this, 4)}>
             <Text>Thu</Text>
           </TouchableHighlight>
-          <TouchableHighlight style={s.days}>
+          <TouchableHighlight style={s.days} onPress={this._selectDay.bind(this, 5)}>
             <Text>Fri</Text>
           </TouchableHighlight>
-          <TouchableHighlight style={s.days}>
+          <TouchableHighlight style={s.days} onPress={this._selectDay.bind(this, 6)}>
             <Text>Sat</Text>
           </TouchableHighlight>
-          <TouchableHighlight style={s.days}>
+          <TouchableHighlight style={s.days} onPress={this._selectDay.bind(this, 7)}>
             <Text>Sun</Text>
           </TouchableHighlight>
         </View>

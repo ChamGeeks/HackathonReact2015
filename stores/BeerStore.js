@@ -15,6 +15,7 @@ var _day_mapping = {
   7: 'sunday'
 };
 
+var _current_day = 'monday';
 var _days = {
   monday: {},
   tuesday: {},
@@ -33,7 +34,19 @@ var BeerStore = assign({}, EventEmitter.prototype, {
     var today = 'monday';
     if(_days[today].items) return _days[today].items;
 
+    // @todo Use getDay
     BeerActions.getToday();
+  },
+
+  getSelectedDay: function() {
+    return _days[_current_day].items;
+  },
+
+  /**
+   * @todo use cache
+   */
+  setDay: function(day) {
+    BeerActions.getDay(day);
   },
 
   emitChange: function() {
@@ -60,8 +73,12 @@ var BeerStore = assign({}, EventEmitter.prototype, {
 
     switch(action.actionType) {
       case 'TODAY':
-
         _days[action.day.name].items = action.day.offers;
+        BeerStore.emitChange();
+        break;
+      case 'SET_DAY':
+        _days[action.day.name].items = action.day.offers;
+        _current_day = action.day.name;
         BeerStore.emitChange();
         break;
     }
