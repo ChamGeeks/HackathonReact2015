@@ -9,22 +9,28 @@ var {
   TouchableHighlight,
   Navigator
 } = React;
+var BeerStore = require('./stores/BeerStore');
 var routes = {
   Home: require('./components/Home.js'),
-  Beer: require('./components/Beer.js')
+  Beer: require('./components/Beer.js'),
+  Offer: require('./components/Offer.js')
 }
 
-console.log(Navigator.SceneConfigs);
-
 var routeMapper = (route, navigator) => {
-  return React.createElement(routes[route.name], { navigator: navigator });
+  return React.createElement(routes[route.name], { route, navigator });
 };
 
 
 var MainNav = React.createClass({
+
+  componentDidMount: function() {
+    // Load bars and offers
+    BeerStore.init();
+  },
+
   render: function() {
     return <Navigator
-      initialRoute={{name: 'Home', index: 0}}
+      initialRoute={{ name: 'Home' }}
       renderScene={routeMapper}
       configureScene={(route) => {
         return Navigator.SceneConfigs.HorizontalSwipeJump;

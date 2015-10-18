@@ -27,8 +27,8 @@ var styles = StyleSheet.create({
   },
   btn_big: {
     alignItems: 'center',
-    padding: 20,
-    margin: 10
+    padding: 30,
+    marginVertical: 10
   },
   btn_big_main: {
     backgroundColor: '#911'
@@ -61,10 +61,10 @@ var styles = StyleSheet.create({
   },
 
   _beer: {
-    backgroundColor: '#3AA372'
+    backgroundColor: '#6D5CEB'
   },
   _food: {
-    backgroundColor: '#D19E5F'
+    backgroundColor: '#E75050'
   }
 
 });

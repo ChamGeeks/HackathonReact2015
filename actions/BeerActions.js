@@ -18,6 +18,53 @@ var url = 'https://chamonix-hackathon-2015.herokuapp.com';
 
 module.exports = {
 
+
+  getBars: function(trying_again) {
+    fetch(url +'/bars')
+      .then((response) => response.json())
+      .then((json) => {
+        AppDispatcher.handleServerAction({
+          actionType: 'LOADED_BARS',
+          bars: json
+        });
+      })
+      .catch((error) => {
+        if(!trying_again) {
+          this.getBars(true);
+        } else {
+          AppDispatcher.handleServerAction({
+            actionType: 'ERROR',
+            Message: 'Failed loading bars'
+          });
+        }
+      });
+    return this;
+  },
+
+  getOffers: function(trying_again) {
+    fetch(url +'/offers')
+      .then((response) => response.json())
+      .then((json) => {
+        AppDispatcher.handleServerAction({
+          actionType: 'LOADED_OFFERS',
+          offers: json
+        });
+      })
+      .catch((error) => {
+        if(!trying_again) {
+          this.getOffers(true);
+        } else {
+          AppDispatcher.handleServerAction({
+            actionType: 'ERROR',
+            Message: 'Failed loading offers'
+          });
+        }
+      });
+    return this;
+  },
+
+
+
   /**
    * @param  {string} text
    */

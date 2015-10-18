@@ -25,7 +25,7 @@ module.exports = React.createClass({
     this.setState({ offers: BeerStore.getSelectedDay() });
   },
 
-  buttonClicked: function(e) {
+  _back: function(e) {
     this.props.navigator.pop();
   },
 
@@ -33,9 +33,20 @@ module.exports = React.createClass({
     BeerStore.setDay(day);
   },
 
+  handleSelectOffer: function(offer) {
+    this.props.navigator.push({
+      name: 'Offer',
+      offer
+    })
+  },
+
 
   isDrink: function(tags) {
     return (tags.includes('beer') || tags.includes('cocktails'));
+  },
+
+  _selectBar: function() {
+
   },
 
   render: function() {
@@ -46,11 +57,17 @@ module.exports = React.createClass({
       offers = this.state.offers.map((item, index) => {
         if(this.isDrink(item.tagged)) {
           return (
-            <View key={'offer_'+ index} style={s.offer_item}>
-              <Text>{ item.bar.name }</Text>
-              <Text>{ item.starts } - { item.ends}</Text>
-              <Text>{ item.type }</Text>
-            </View>
+            <TouchableHighlight
+              key={'offer_'+ index}
+              style={s.offer_item}
+              onPress={this.handleSelectOffer.bind(this, item)}
+            >
+              <View>
+                <Text>{ item.bar.name }</Text>
+                <Text>{ item.starts } - { item.ends}</Text>
+                <Text>{ item.type }</Text>
+              </View>
+            </TouchableHighlight>
           );
         }
         return;
@@ -66,7 +83,7 @@ module.exports = React.createClass({
     return (
       <View style={s.container}>
         <View style={[s.header, s._beer]}>
-          <TouchableHighlight style={s.back} onPress={this.buttonClicked}>
+          <TouchableHighlight style={s.back} onPress={this._back}>
             <Text>Back</Text>
           </TouchableHighlight>
           <View style={{ flex: 1, alignItems: 'center' }}>
@@ -75,21 +92,10 @@ module.exports = React.createClass({
           <View style={s.back}></View>
         </View>
 
+
         <View style={{ flexDirection: 'row' }}>
-          <TouchableHighlight style={s.days} onPress={this._selectDay.bind(this, 1)}>
-            <Text>Mon</Text>
-          </TouchableHighlight>
-          <TouchableHighlight style={s.days} onPress={this._selectDay.bind(this, 2)}>
-            <Text>Tue</Text>
-          </TouchableHighlight>
-          <TouchableHighlight style={s.days} onPress={this._selectDay.bind(this, 3)}>
-            <Text>Wed</Text>
-          </TouchableHighlight>
-          <TouchableHighlight style={s.days} onPress={this._selectDay.bind(this, 4)}>
-            <Text>Thu</Text>
-          </TouchableHighlight>
-          <TouchableHighlight style={s.days} onPress={this._selectDay.bind(this, 5)}>
-            <Text>Fri</Text>
+          <TouchableHighlight style={[s.days, { flex: 2}]} onPress={this._selectDay.bind(this, 1)}>
+            <Text>Week</Text>
           </TouchableHighlight>
           <TouchableHighlight style={s.days} onPress={this._selectDay.bind(this, 6)}>
             <Text>Sat</Text>
