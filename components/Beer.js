@@ -99,7 +99,7 @@ module.exports = React.createClass({
 
     var days = _days.map((day) => {
       return (
-        <TouchableHighlight style={s.days} onPress={this._selectDay.bind(this, day.id)}>
+        <TouchableHighlight key={'day_'+ day.id} style={s.days} onPress={this._selectDay.bind(self, day.id)}>
           <Text>{ day.slug }</Text>
         </TouchableHighlight>
       );
