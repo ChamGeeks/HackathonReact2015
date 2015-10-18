@@ -64,37 +64,11 @@ module.exports = {
   },
 
 
-
-  /**
-   * @param  {string} text
-   */
-  getToday: function() {
-
-    fetch(url +'/days/monday')
-      .then((response) => response.json())
-      .then((json) => {
-        AppDispatcher.handleServerAction({
-          actionType: 'TODAY',
-          day: json.pop()
-        });
-      })
-      .catch((error) => {
-        console.warn(error);
-      });
-  },
-
-  getDay: function(day) {
-    fetch(url +'/days/'+ _day_mapping[day])
-      .then((response) => response.json())
-      .then((json) => {
-        AppDispatcher.handleServerAction({
-          actionType: 'SET_DAY',
-          day: json.pop()
-        });
-      })
-      .catch((error) => {
-        console.warn(error);
-      });
+  setDay: function(day_number) {
+    AppDispatcher.handleViewAction({
+      actionType: 'SET_DAY',
+      day_number: day_number
+    });
   }
 
 };

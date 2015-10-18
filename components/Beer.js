@@ -3,6 +3,7 @@
 var React = require('react-native');
 var { StyleSheet, Text, Image, View, TouchableHighlight } = React;
 var BeerStore = require('../stores/BeerStore');
+var BeerActions = require('../actions/BeerActions');
 var s = require('../styles');
 
 module.exports = React.createClass({
@@ -30,7 +31,7 @@ module.exports = React.createClass({
   },
 
   _selectDay: function(day) {
-    BeerStore.setDay(day);
+    BeerActions.setDay(day);
   },
 
   handleSelectOffer: function(offer) {
@@ -100,7 +101,7 @@ module.exports = React.createClass({
           <TouchableHighlight style={s.days} onPress={this._selectDay.bind(this, 6)}>
             <Text>Sat</Text>
           </TouchableHighlight>
-          <TouchableHighlight style={s.days} onPress={this._selectDay.bind(this, 7)}>
+          <TouchableHighlight style={s.days} onPress={this._selectDay.bind(this, 0)}>
             <Text>Sun</Text>
           </TouchableHighlight>
         </View>

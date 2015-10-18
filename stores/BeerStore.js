@@ -8,7 +8,7 @@ const LOADED_EVENT = 'LOADED_EVENT';
 
 var _day_mapping = [ 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday' ];
 
-var _current_day = 'monday';
+var _selected_day = 'monday';
 var _days = {
   monday: {},
   tuesday: {},
@@ -39,14 +39,10 @@ var BeerStore = assign({}, EventEmitter.prototype, {
   },
   getDay: (day_name) => _offers.filter((offer) => offer.day === day_name),
 
-  getSelectedDay: () => this.getDay(_current_day),
+  getSelectedDay: () => BeerStore.getDay(_selected_day),
 
-  /**
-   * @todo use cache
-   */
-  setDay: function(day) {
-    BeerActions.getDay(day);
-  },
+  getDayName: (day_number) => _day_mapping[day_number],
+
 
   /**
    * Emit when all is loaded
@@ -67,20 +63,13 @@ var BeerStore = assign({}, EventEmitter.prototype, {
   emitChange: function() {
     this.emit(CHANGE_EVENT);
   },
-
-  /**
-   * @param {function} callback
-   */
   addChangeListener: function(callback) {
     this.on(CHANGE_EVENT, callback);
   },
-
-  /**
-   * @param {function} callback
-   */
   removeChangeListener: function(callback) {
     this.removeListener(CHANGE_EVENT, callback);
   },
+
 
   dispatcherIndex: AppDispatcher.register((payload) => {
     var action = payload.action;
@@ -88,13 +77,8 @@ var BeerStore = assign({}, EventEmitter.prototype, {
 
 
     switch(action.actionType) {
-      case 'TODAY':
-        _days[action.day.name].items = action.day.offers;
-        BeerStore.emitChange();
-        break;
       case 'SET_DAY':
-        _days[action.day.name].items = action.day.offers;
-        _current_day = action.day.name;
+        _selected_day = BeerStore.getDayName(action.day_number);
         BeerStore.emitChange();
         break;
       case 'LOADED_BARS':
