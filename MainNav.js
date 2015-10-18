@@ -11,9 +11,9 @@ var {
 } = React;
 var BeerStore = require('./stores/BeerStore');
 var routes = {
-  Home: require('./components/Home.js'),
-  Beer: require('./components/Beer.js'),
-  Offer: require('./components/Offer.js')
+  Home: require('./components/Home'),
+  Beer: require('./components/Beer'),
+  Offer: require('./components/Offer')
 }
 
 var routeMapper = (route, navigator) => {
