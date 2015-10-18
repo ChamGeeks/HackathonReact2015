@@ -1,10 +1,17 @@
 'use strict';
 
 var React = require('react-native');
-var { Text, Image, View, TouchableHighlight } = React;
+var { Text, Image, View, MapView, TouchableHighlight } = React;
 var s = require('../styles');
+var BeerStore = require('../stores/BeerStore');
 
 module.exports = React.createClass({
+
+  getInitialState: function() {
+    return {
+      bar: BeerStore.getBar(this.props.route.offer.bar.id)
+    };
+  },
 
   buttonClicked: function(e) {
     console.log('Go to beer');
@@ -13,7 +20,25 @@ module.exports = React.createClass({
     });
   },
 
+
   render: function() {
+    let offer = this.props.route.offer;
+    let bar = this.state.bar;
+
+    let map = [{
+      latitude: bar.location.lat,
+      longitude: bar.location.long,
+      animateDrop: true,
+      title: bar.name
+    }];
+
+    let region = {
+      latitude: bar.location.lat,
+      longitude: bar.location.long,
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01
+    };
+
     return (
       <View style={s.container}>
 
@@ -27,8 +52,15 @@ module.exports = React.createClass({
           <View style={s.back}></View>
         </View>
 
-        <Text>{ this.props.route.offer.type }</Text>
+        <View style={{ textAlign: 'center', alignItems: 'center' }}>
+          <Text style={s.h1}>{bar.name}</Text>
+          <Image style={{ width: 150, height: 150 }} source={{ uri: bar.image_url }} />
+          <Text style={{ padding: 20 }}>{ offer.type }</Text>
+        </View>
 
+        <View style={{ alignItems: 'center' }}>
+          <MapView style={{ width: 200, height: 200 }} annotations={map} region={region} />
+        </View>
 
       </View>
     );

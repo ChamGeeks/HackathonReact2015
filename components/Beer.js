@@ -6,11 +6,22 @@ var BeerStore = require('../stores/BeerStore');
 var BeerActions = require('../actions/BeerActions');
 var s = require('../styles');
 
+var _days = [
+  { id: 1, slug: 'monday' },
+  { id: 2, slug: 'tuesday' },
+  { id: 3, slug: 'wednesday' },
+  { id: 4, slug: 'thursday' },
+  { id: 5, slug: 'friday' },
+  { id: 6, slug: 'saturday' },
+  { id: 0, slug: 'sunday' }
+];
+
 module.exports = React.createClass({
 
   getInitialState: function() {
     return {
-      offers: BeerStore.getToday()
+      offers: BeerStore.getToday(),
+      selected_day: BeerStore.getSelectedDayName()
     }
   },
 
@@ -23,7 +34,10 @@ module.exports = React.createClass({
 
 
   _onDayChange: function() {
-    this.setState({ offers: BeerStore.getSelectedDay() });
+    this.setState({
+      offers: BeerStore.getSelectedDay(),
+      selected_day: BeerStore.getSelectedDayName()
+    });
   },
 
   _back: function(e) {
@@ -43,25 +57,27 @@ module.exports = React.createClass({
 
 
   isDrink: function(tags) {
-    return (tags.includes('beer') || tags.includes('cocktails'));
+    return (
+      tags.indexOf('beer') >= 0 ||
+      tags.indexOf('cocktails') >= 0 ||
+      tags.indexOf('shots') >= 0
+    );
   },
 
-  _selectBar: function() {
-
-  },
 
   render: function() {
 
     var offers;
+    var self = this;
 
     if(this.state.offers) {
       offers = this.state.offers.map((item, index) => {
-        if(this.isDrink(item.tagged)) {
+        if(self.isDrink(item.tagged)) {
           return (
             <TouchableHighlight
               key={'offer_'+ index}
               style={s.offer_item}
-              onPress={this.handleSelectOffer.bind(this, item)}
+              onPress={self.handleSelectOffer.bind(this, item)}
             >
               <View>
                 <Text>{ item.bar.name }</Text>
@@ -81,6 +97,14 @@ module.exports = React.createClass({
       );
     }
 
+    var days = _days.map((day) => {
+      return (
+        <TouchableHighlight style={s.days} onPress={this._selectDay.bind(this, day.id)}>
+          <Text>{ day.slug }</Text>
+        </TouchableHighlight>
+      );
+    });
+
     return (
       <View style={s.container}>
         <View style={[s.header, s._beer]}>
@@ -94,16 +118,12 @@ module.exports = React.createClass({
         </View>
 
 
-        <View style={{ flexDirection: 'row' }}>
-          <TouchableHighlight style={[s.days, { flex: 2}]} onPress={this._selectDay.bind(this, 1)}>
-            <Text>Week</Text>
-          </TouchableHighlight>
-          <TouchableHighlight style={s.days} onPress={this._selectDay.bind(this, 6)}>
-            <Text>Sat</Text>
-          </TouchableHighlight>
-          <TouchableHighlight style={s.days} onPress={this._selectDay.bind(this, 0)}>
-            <Text>Sun</Text>
-          </TouchableHighlight>
+        <TouchableHighlight onPress={this._changeDay}>
+          <Text>{ this.state.selected_day }</Text>
+        </TouchableHighlight>
+
+        <View style={{ flexDirection: 'column' }}>
+          {days}
         </View>
 
         <View style={s.offers}>

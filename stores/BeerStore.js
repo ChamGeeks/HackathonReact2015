@@ -43,6 +43,10 @@ var BeerStore = assign({}, EventEmitter.prototype, {
 
   getDayName: (day_number) => _day_mapping[day_number],
 
+  getSelectedDayName: () => _selected_day,
+
+
+  getBar: (bar_id) => _bars.filter((bar) => bar.id === bar_id).pop(),
 
   /**
    * Emit when all is loaded
